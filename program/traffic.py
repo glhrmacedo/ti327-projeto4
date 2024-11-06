@@ -1,4 +1,6 @@
+import numpy
 import sys
+import sklearn
 import tensorflow
 
 def load_data(directory):
@@ -14,23 +16,28 @@ def get_model():
     '''
     raise NotImplementedError
 
-
-def main():
+    
+if __name__ == '__main__':
 
     # check command-line arguments
+    if len(sys.argv) != 2 or len(sys.argv) != 3:
+        sys.exit('Usage: python traffic.py directory [model.h5]')
 
     # get image arrays and labels for all image files
     images, labels = load_data(sys.argv[1])
 
     # split data into tranning and testing sets
-    x_train, x_test, y_train, y_test = None
+    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(numpy.array(images), numpy.array(labels), test_size = 0.0)
 
     # get a compiled neural network
+    model = get_model()
 
     # fit model on tranning data
+    model.fit(x_train, y_train, epochs = 0)
 
     # evaluate neural network performance
+    model.evaluate(x_test, y_test, verbose = 2)
 
     # save model to file
-
-    pass
+    if len(sys.argv) == 3:
+        model.save(sys.argv[2])
