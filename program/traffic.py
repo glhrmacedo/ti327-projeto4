@@ -1,45 +1,31 @@
-import cv2
-import numpy
-import os
-import sklearn
-import sys
-import sklearn.model_selection
-import tensorflow
-
-
-def load_data():
-
+def load_data(directory):
+    '''
+        Load image data from directory. Assume 'directory' has one directory named after each category, nubered 0 throught N - 1. Inside each category directory will be some number of image files. Return tuple '(images, labels)'. 'images' should be a list of all the images in the directory, where each image is formatted as numpy ndarray with dimensions IMAGE_WIDTH x IMAGE_HEIGHT x 3. 'labels' shoud be a list of integer labels, represeting the categories for each of the corresponding 'images'.
+    '''
     raise NotImplementedError
 
 
 def get_model():
-
+    '''
+        Returns a compiled covolutional neural network model. Assume that the 'input_shape' of the first layer is '(IMAGE_WIDTH, IMAGE_HEIGHT, 3)'. The output layer should have 'N' units, one for each category.
+    '''
     raise NotImplementedError
 
 
 def main():
 
     # check command-line arguments
-    if len(sys.argv) not in [2, 3]:
-        sys.exit('Usage: python traffic.py directory [model.h5]')
 
-    # get images arrays and labels from all image files
-    images, labels = load_data(sys.argv[1])
+    # get image arrays and labels for all image files
 
     # split data into tranning and testing sets
-    labels = tensorflow.keras.utils.to_categorical(labels)
-    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(numpy.array(images), numpy.array(labels), test_size = 0.4)
 
-    # get the compiled neural network
-    model = get_model()
+    # get a compiled neural network
 
-    # fit model on training data
-    model.fit(x_train, y_train, epochs = 10)
+    # fit model on tranning data
 
     # evaluate neural network performance
-    model.evaluate(x_test, y_test, verbose = 2)
 
     # save model to file
-    if len(sys.argv) == 3:
-        model.save(sys.argv[2])
-        print(f"Model saved to {sys.argv[2]}")
+
+    pass
